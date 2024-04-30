@@ -1,19 +1,26 @@
 <template>
-  <div v-for="item in exercisesCategories.data" :key="item" class="mt-8">
+  <div v-for="item in getBodyParts" :key="item" class="mt-8">
     {{ item }}
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive } from "vue";
-import fetchData from "@/composables/fetchData";
+import { computed, defineComponent, onMounted, reactive } from "vue";
+import { useBodyPartsStore } from '@/stores/bodyParts'
 
 export default defineComponent({
   name: "TargetView",
   setup() {
-    const { exercisesCategories } = fetchData();
 
-    return { exercisesCategories };
+    const store = useBodyPartsStore()
+    const getBodyParts = computed(()=>{ return store.getBodyParts }) 
+
+    onMounted(()=>{
+      store.fetchBodyParts()
+    })
+    console.log(store)
+
+    return { getBodyParts };
   },
 });
 </script>

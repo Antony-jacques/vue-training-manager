@@ -1,6 +1,7 @@
 import { onMounted, reactive } from "vue";
+import { useBodyPartsStore } from '@/stores/bodyParts'
 
-const fetchData = () => {
+export function fetchData() {
 
   const exercisesCategories = reactive({
     data: [],
@@ -16,6 +17,7 @@ const fetchData = () => {
     },
   };
   
+  const store = useBodyPartsStore()
   const getExercises = async () => {
     try {
       const request = await fetch(
@@ -31,9 +33,6 @@ const fetchData = () => {
     }
   };
 
-  onMounted(getExercises);
 
   return { exercisesCategories, getExercises };
 };
-
-export default fetchData;

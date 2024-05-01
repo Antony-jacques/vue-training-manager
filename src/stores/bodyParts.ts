@@ -43,9 +43,6 @@ export const useBodyPartsStore = defineStore({
       } catch (error) {
         console.error(error);
       }
-
-
     }
-
   },
 })

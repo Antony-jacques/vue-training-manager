@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import TargetView from '../views/TargetView.vue'
+import SingleBodyPartView from '@/views/SingleBodyPartView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -12,6 +13,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/target',
     name: 'Target',
     component: TargetView
+  },
+  {
+    path: '/SingleBodyPart/:bodyPart',
+    name: 'SingleBodyPartView',
+    component: SingleBodyPartView,
+    props: true
   },
   {
     path: '/about',

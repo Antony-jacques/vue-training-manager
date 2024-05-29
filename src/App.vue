@@ -28,4 +28,13 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.container {
+  max-width: 1222px;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
 </style>

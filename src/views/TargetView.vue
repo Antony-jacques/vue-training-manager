@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, reactive } from "vue";
+import { computed, defineComponent, onMounted } from "vue";
 import { useBodyPartsStore } from '@/stores/bodyParts'
 import BodyPartPreview from "../components/BodyPartPreview.vue";
 
@@ -27,7 +27,6 @@ export default defineComponent({
     onMounted(()=>{
       store.fetchBodyParts()
     })
-    console.log(store)
 
     return { getBodyParts };
   },

@@ -24,28 +24,24 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { computed, onMounted } from "vue";
 
 import { useBodyPartsStore } from "@/stores/bodyParts";
 
-export default {
-  props: ["bodyPart"],
-  setup(props) {
-    onMounted(() => {
-      store.fetchSingleBodyPartExercices(props.bodyPart);
-    });
+const props = defineProps<{
+  bodyPart: string
+}>()
 
-    const test = props.bodyPart;
-    const targetedMuscle = props.bodyPart;
-    const store = useBodyPartsStore();
-    const getSingleBodyPartExercices = computed(() =>
-      store.getSingleBodyPartExercices(targetedMuscle)
-    );
-    console.log("getSingleBodyPartExercices", getSingleBodyPartExercices);
-    return { targetedMuscle, getSingleBodyPartExercices };
-  },
-};
+onMounted(() => {
+  store.fetchSingleBodyPartExercices(props.bodyPart);
+});
+
+const targetedMuscle = props.bodyPart;
+const store = useBodyPartsStore();
+const getSingleBodyPartExercices = computed(() =>
+  store.getSingleBodyPartExercices(targetedMuscle)
+);
 </script>
 
 <style></style>

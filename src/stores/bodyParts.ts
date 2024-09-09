@@ -23,7 +23,11 @@ export const useBodyPartsStore = defineStore({
   getters: {
     getBodyParts: (state: State) => state.data.bodyParts,
     getSingleBodyPartExercices: (state: State) => {
-      return (singleMuscle:string) => state.data.singleBodyPartExercices[singleMuscle]},
+      return (singleMuscle: string) => {
+        singleMuscle = singleMuscle.replace(" ", "-")
+        return state.data.singleBodyPartExercices[singleMuscle];
+      };
+    },
   },
 
   actions: {
@@ -83,7 +87,7 @@ export const useBodyPartsStore = defineStore({
 
         let key: string = muscle.replace(' ', '-');
 
-        this.data.singleBodyPartExercices[key]= response
+        this.data.singleBodyPartExercices[key] = response;
       } catch (error) {
         console.error(error);
       }

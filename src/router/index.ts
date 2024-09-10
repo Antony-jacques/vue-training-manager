@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import TargetView from '../views/TargetView.vue'
 import SingleBodyPartView from '@/views/SingleBodyPartView.vue'
+import CustomTraining from '@/views/CustomTraining.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -13,6 +14,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/target',
     name: 'Target',
     component: TargetView
+  },
+  {
+    path: '/my-training',
+    name: 'MyTraining',
+    component: CustomTraining
   },
   {
     path: '/SingleBodyPart/:bodyPart',

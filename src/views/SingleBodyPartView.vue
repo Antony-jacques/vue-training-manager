@@ -5,18 +5,18 @@
       <div
         v-for="exercice in getSingleBodyPartExercices"
         :key="exercice.id"
-        class="shadow-xl bg-cyan-800"
+        class="shadow-xl flex flex-col"
       >
         <div><img :src="exercice.gifUrl" alt="" class="w-full" /></div>
-        <div class="flex justify-end p-4">
+        <div class="flex justify-end p-4 flex-wrap">
           <span
-            class="p-[0.75rem] ml-4 border rounded-full border-[#ecb101] text-[#ecb101] transition ease-in-out delay-150 hover:bg-[#ecb101] hover:text-white"
+            class="p-[0.75rem] ml-4 my-2 cursor-pointer border rounded-full border-[#ecb101] text-[#ecb101] transition ease-in-out delay-150 hover:bg-[#ecb101] hover:text-white"
             v-for="secondaryMuscle in exercice.secondaryMuscles"
             :key="secondaryMuscle"
             >{{ secondaryMuscle }}</span
           >
         </div>
-        <p class="p-4 first-letter:uppercase">
+        <p class="p-4 first-letter:uppercase mt-auto">
           {{ exercice.name }}
         </p>
       </div>

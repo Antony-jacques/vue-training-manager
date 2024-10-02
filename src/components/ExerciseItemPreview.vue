@@ -13,7 +13,7 @@ import { Exercise } from "@/stores/bodyParts";
 import { UnwrapRef } from "vue";
 
 const props = defineProps<{
-  exercice: UnwrapRef<{ [key: string]: Exercise }>;
+  exercice: UnwrapRef<Exercise>;
 }>();
 
 </script>

@@ -1,7 +1,12 @@
 <template>
   My training
   <div>
-    <select name="cars" id="cars" v-model="selectedBodyParts">
+    <select
+      name="bodyParts"
+      id="bodyParts"
+      v-model="selectedBodyParts"
+      class="m-4 h-12 p-4"
+    >
       <option value="">--Choisissez une partie du corps--</option>
       <option v-for="bodyParts in getBodyParts" :value="bodyParts">
         {{ bodyParts }}
@@ -12,7 +17,7 @@
 
   <div
     v-if="selectedBodyParts.length > 1"
-    class="text-left bg-neutral-100 rounded-t-3xl p-8"
+    class="text-left bg-neutral-100 rounded-t-3xl p-4"
     :class="{
       '-mt-8 z-10 relative': selectedBodyParts.length > 1,
     }"
@@ -22,15 +27,16 @@
       >{{ selectedBodyParts }}</span
     >
 
-    <p v-for="exercice in getSingleBodyPartExercices">
-      {{ exercice.name }}
-    </p>
+    <div v-for="exercice in getSingleBodyPartExercices">
+      <ExerciseItemPreview :exercice="exercice" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import { useBodyPartsStore } from "@/stores/bodyParts";
+import ExerciseItemPreview from "@/components/ExerciseItemPreview.vue";
 
 const store = useBodyPartsStore();
 

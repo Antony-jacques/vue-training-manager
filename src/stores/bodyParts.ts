@@ -1,5 +1,15 @@
 import { defineStore } from "pinia";
 
+export interface Exercise {
+  id: number;
+  bodyPart: string;
+  name: string;
+  equipment: string;
+  gifUrl: string;
+  target: string;
+  instructions: string[];
+  secondaryMuscles: string[];
+}
 interface State {
   data: {
     bodyParts: string;

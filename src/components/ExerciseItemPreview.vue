@@ -6,14 +6,20 @@
       <button @click="togglePanel = !togglePanel">Save</button>
     </div>
   </div>
-  {{ togglePanel }}
-  <div v-if="togglePanel"><ExerciseItemPanel :exercice="exercice"/></div>
+  <div v-if="togglePanel"><ExerciseItemPanel :exercice="exercice" /></div>
+  <Teleport to="body" v-if="togglePanel">
+    <ExerciseItemModal
+      :exercice="exercice"
+      @close-modal="togglePanel = false"
+    />
+  </Teleport>
 </template>
 
 <script setup lang="ts">
 import { Exercise } from "@/stores/bodyParts";
 import { UnwrapRef, ref } from "vue";
 import ExerciseItemPanel from "./ExerciseItemPanel.vue";
+import ExerciseItemModal from "./ExerciseItemModal.vue";
 
 const props = defineProps<{
   exercice: UnwrapRef<Exercise>;

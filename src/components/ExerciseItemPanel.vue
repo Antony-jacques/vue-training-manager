@@ -1,8 +1,9 @@
 <template>
-  <div class="bg-white p-4">
+  <div class="bg-white p-4 rounded-t-3xl">
+    <img class="h-48 m-auto" :src="exercice.gifUrl" alt="" />
     <div class="flex justify-around">
-      <h2 class="border p-4 w-full text-center" >Instrtuctions</h2>
-      <h2 class="border p-4 w-full text-center" >Enregistrement</h2>
+      <h2 class="border p-4 w-full text-center">Instrtuctions</h2>
+      <h2 class="border p-4 w-full text-center">Enregistrement</h2>
     </div>
     <div>
       <ul>

@@ -1,8 +1,9 @@
 import { ref } from "vue";
 import { projecFirestore } from "../firebase/config";
+import { Workout } from "@/stores/bodyParts";
 
 const getWorkouts = () => {
-  const workouts = ref([]);
+  const workouts = ref<Workout[]>([]);
   const error = ref(null);
 
   const loadWorkouts = async () => {

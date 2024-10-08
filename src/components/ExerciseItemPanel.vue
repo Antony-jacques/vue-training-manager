@@ -6,7 +6,7 @@
     </div>
     <div class="flex justify-around">
       <h2
-        class="border p-4 w-full text-center"
+        class="border p-4 w-full text-center cursor"
         :class="{
           'bg-orange-100': activeTab === 'instructions',
         }"
@@ -15,7 +15,7 @@
         Instrtuctions
       </h2>
       <h2
-        class="border p-4 w-full text-center"
+        class="border p-4 w-full text-center cursor"
         @click="activeTab = 'form'"
         :class="{
           'bg-orange-100': activeTab === 'form',
@@ -33,9 +33,31 @@
     </div>
     <div class="exercice-form" v-show="activeTab === 'form'">
       <h2>form</h2>
-      <div v-for="workout in workouts">
-        {{ workout.name }}
+      <div v-for="savedWorkout in workouts">
+        {{ savedWorkout.name }}
       </div>
+      <div>
+        <form @submit.prevent="handleSubmit">
+          <div>
+            <div>
+              <label>KG </label>
+              <input
+                type="number"
+                class="border w-16 text-center"
+                v-model="weight"
+              />
+              <label>Reps </label>
+              <input
+                type="number"
+                class="border w-16 text-center"
+                v-model="repetition"
+              />
+            </div>
+          </div>
+          <button>SAVE</button>
+        </form>
+      </div>
+      <h3>{{ weight }} *** {{ repetition }}</h3>
     </div>
   </div>
 </template>
@@ -44,6 +66,7 @@
 import { Exercise } from "@/stores/bodyParts";
 import { UnwrapRef, ref } from "vue";
 import getWorkouts from "../composables/getWorkouts";
+import { projecFirestore } from "@/firebase/config";
 
 const props = defineProps<{
   exercice: UnwrapRef<Exercise>;
@@ -52,6 +75,25 @@ const props = defineProps<{
 const activeTab = ref<"instructions" | "form">("instructions");
 
 const { workouts, error, loadWorkouts } = getWorkouts();
+
+const weight = ref(0);
+const repetition = ref(0);
+
+const handleSubmit = async () => {
+  const newWorkout = {
+    series: [
+      {
+        weight: weight.value,
+        repetition: repetition.value,
+      },
+    ],
+  };
+
+  const res = await projecFirestore
+    .collection(props.exercice.name)
+    .add(newWorkout);
+  console.log(res);
+};
 
 loadWorkouts();
 </script>

@@ -10,6 +10,11 @@ export interface Exercise {
   instructions: string[];
   secondaryMuscles: string[];
 }
+
+export interface Workout {
+  id: string;
+  [key: string]: any;
+}
 interface State {
   data: {
     bodyParts: string;
@@ -34,7 +39,7 @@ export const useBodyPartsStore = defineStore({
     getBodyParts: (state: State) => state.data.bodyParts,
     getSingleBodyPartExercices: (state: State) => {
       return (singleMuscle: string) => {
-        singleMuscle = singleMuscle.replace(" ", "-")
+        singleMuscle = singleMuscle.replace(" ", "-");
         return state.data.singleBodyPartExercices[singleMuscle];
       };
     },
@@ -73,7 +78,7 @@ export const useBodyPartsStore = defineStore({
     },
 
     async fetchSingleBodyPartExercices(muscle: string) {
-      if (muscle.replace(' ', '-') in this.data.singleBodyPartExercices) {
+      if (muscle.replace(" ", "-") in this.data.singleBodyPartExercices) {
         return;
       }
 
@@ -95,7 +100,7 @@ export const useBodyPartsStore = defineStore({
 
         const response = await request.json();
 
-        let key: string = muscle.replace(' ', '-');
+        let key: string = muscle.replace(" ", "-");
 
         this.data.singleBodyPartExercices[key] = response;
       } catch (error) {

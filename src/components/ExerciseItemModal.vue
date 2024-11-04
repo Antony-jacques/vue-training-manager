@@ -23,4 +23,8 @@ const props = defineProps<{
 const emit = defineEmits(["close-modal"]);
 </script>
 
-<style scoped></style>
+<style scoped>
+  .modal-content {
+    height: calc(100% - 48px);
+  }
+</style>

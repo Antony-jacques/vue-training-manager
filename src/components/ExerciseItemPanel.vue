@@ -34,30 +34,32 @@
     <div class="exercice-form" v-show="activeTab === 'form'">
       <h2>form</h2>
       <div v-for="savedWorkout in workouts">
-        {{ savedWorkout.name }}
+        Previous workout(s) : 
+        {{ savedWorkout.series[savedWorkout.series.length-1]['reps'] }}
       </div>
       <div>
         <form @submit.prevent="handleSubmit">
           <div>
-            <div>
-              <label>KG </label>
+            <div v-for="(set, index) in series">
+              <label v-if="exercice.equipment !== 'body weight'">KG </label>
               <input
                 type="number"
                 class="border w-16 text-center"
-                v-model="weight"
+                v-model="set.weight"
+                v-if="exercice.equipment !== 'body weight'"
               />
               <label>Reps </label>
               <input
                 type="number"
                 class="border w-16 text-center"
-                v-model="repetition"
-              />
+                v-model="set.reps"
+              /> <button @click="removeSerie(index)" class="border cursor bg-red-600 p-2 text-white">delete</button>
             </div>
           </div>
-          <button>SAVE</button>
+          <button type="button" class="border block p-2 text-white bg-amber-600" @click="addSeries">New serie</button>
+          <button type="submit" class="border block bg-lime-600 p-2 text-white">SAVE</button>
         </form>
       </div>
-      <h3>{{ weight }} *** {{ repetition }}</h3>
     </div>
   </div>
 </template>
@@ -72,21 +74,25 @@ const props = defineProps<{
   exercice: UnwrapRef<Exercise>;
 }>();
 
-const activeTab = ref<"instructions" | "form">("instructions");
+console.log('props', props)
+
+const activeTab = ref<"instructions" | "form">("form");
 
 const { workouts, error, loadWorkouts } = getWorkouts();
 
-const weight = ref(0);
-const repetition = ref(0);
+const series = ref<{weight: number, reps:number}[]>([{weight: 0, reps:0}])
+
+const addSeries = () =>{
+  series.value.push({weight: 0, reps:0})
+}
+
+const removeSerie = (index: number)=>{
+  series.value.splice(index, 1)
+}
 
 const handleSubmit = async () => {
   const newWorkout = {
-    series: [
-      {
-        weight: weight.value,
-        repetition: repetition.value,
-      },
-    ],
+    series: series.value
   };
 
   const res = await projecFirestore
@@ -95,7 +101,7 @@ const handleSubmit = async () => {
   console.log(res);
 };
 
-loadWorkouts();
+loadWorkouts(props.exercice.name);
 </script>
 
 <style scoped></style>

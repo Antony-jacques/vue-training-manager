@@ -33,9 +33,17 @@
     </div>
     <div class="exercice-form" v-show="activeTab === 'form'">
       <h2>form</h2>
+      <Transition>
+        <div
+          v-if="isSuccess"
+          class="text-center border-4 border-lime-600 border-solid p-4"
+        >
+          <h3>Super ta série a été ajouté</h3>
+        </div>
+      </Transition>
       <div v-for="savedWorkout in workouts">
-        Previous workout(s) : 
-        {{ savedWorkout.series[savedWorkout.series.length-1]['reps'] }}
+        Previous workout(s) :
+        {{ savedWorkout.series[savedWorkout.series.length - 1]["reps"] }}
       </div>
       <div>
         <form @submit.prevent="handleSubmit">
@@ -53,11 +61,25 @@
                 type="number"
                 class="border w-16 text-center"
                 v-model="set.reps"
-              /> <button @click="removeSerie(index)" class="border cursor bg-red-600 p-2 text-white">delete</button>
+              />
+              <button
+                @click="removeSerie(index)"
+                class="border cursor bg-red-600 p-2 text-white"
+              >
+                delete
+              </button>
             </div>
           </div>
-          <button type="button" class="border block p-2 text-white bg-amber-600" @click="addSeries">New serie</button>
-          <button type="submit" class="border block bg-lime-600 p-2 text-white">SAVE</button>
+          <button
+            type="button"
+            class="border block p-2 text-white bg-amber-600"
+            @click="addSeries"
+          >
+            New serie
+          </button>
+          <button type="submit" class="border block bg-lime-600 p-2 text-white">
+            SAVE
+          </button>
         </form>
       </div>
     </div>
@@ -66,7 +88,7 @@
 
 <script setup lang="ts">
 import { Exercise } from "@/stores/bodyParts";
-import { UnwrapRef, ref } from "vue";
+import { Ref, UnwrapRef, ref } from "vue";
 import getWorkouts from "../composables/getWorkouts";
 import { projecFirestore } from "@/firebase/config";
 
@@ -74,34 +96,63 @@ const props = defineProps<{
   exercice: UnwrapRef<Exercise>;
 }>();
 
-console.log('props', props)
+console.log("props", props);
 
 const activeTab = ref<"instructions" | "form">("form");
 
 const { workouts, error, loadWorkouts } = getWorkouts();
 
-const series = ref<{weight: number, reps:number}[]>([{weight: 0, reps:0}])
+const series = ref<{ weight: number; reps: number }[]>([
+  { weight: 0, reps: 0 },
+]);
 
-const addSeries = () =>{
-  series.value.push({weight: 0, reps:0})
-}
+const isSuccess: Ref<boolean> = ref(false);
 
-const removeSerie = (index: number)=>{
-  series.value.splice(index, 1)
-}
+const addSeries = () => {
+  series.value.push({ weight: 0, reps: 0 });
+};
+
+const removeSerie = (index: number) => {
+  series.value.splice(index, 1);
+};
 
 const handleSubmit = async () => {
   const newWorkout = {
-    series: series.value
+    series: series.value,
   };
 
-  const res = await projecFirestore
-    .collection(props.exercice.name)
-    .add(newWorkout);
-  console.log(res);
+  try {
+    const res = await projecFirestore
+      .collection(props.exercice.name)
+      .add(newWorkout);
+    console.log(res);
+
+    loadWorkouts(props.exercice.name);
+    triggerSuccess();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const triggerSuccess = () => {
+  isSuccess.value = true;
+
+  setTimeout(() => {
+    isSuccess.value = false;
+  }, 3000);
 };
 
 loadWorkouts(props.exercice.name);
 </script>
 
-<style scoped></style>
+<style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>

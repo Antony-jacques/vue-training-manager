@@ -5,7 +5,7 @@
   >
     <div class="modal-content bg-white p-4 mt-12 rounded-t-3xl" @click.stop>
       <div>
-        <ExerciseItemPanel :exercice="exercice" />
+        <ExerciseItemPanel @close-modal="emit('close-modal')" :exercice="exercice" />
       </div>
     </div>
   </div>

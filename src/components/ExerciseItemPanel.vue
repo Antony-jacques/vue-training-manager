@@ -1,5 +1,10 @@
 <template>
   <div class="bg-white p-4 rounded-t-3xl">
+    <div
+      class=" flex justify-end"
+    >
+      <div class="close-btn p-8 hover:cursor-pointer" @click="emit('close-modal')">X</div>
+    </div>
     <img class="h-48 m-auto" :src="exercice.gifUrl" alt="" />
     <div>
       <h3 class="my-4 uppercase bold text-2xl">{{ exercice.name }}</h3>
@@ -97,6 +102,8 @@ const props = defineProps<{
 }>();
 
 console.log("props", props);
+
+const emit = defineEmits(["close-modal"]);
 
 const activeTab = ref<"instructions" | "form">("form");
 

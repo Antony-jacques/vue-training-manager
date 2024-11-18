@@ -5,7 +5,7 @@
       name="bodyParts"
       id="bodyParts"
       v-model="selectedBodyParts"
-      class="m-4 h-12 p-4"
+      class="m-4 h-12 p-4 pr-8"
     >
       <option value="">--Choisissez une partie du corps--</option>
       <option v-for="bodyParts in getBodyParts" :value="bodyParts">

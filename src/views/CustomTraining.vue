@@ -38,6 +38,8 @@ import { computed, onMounted, ref, watch } from "vue";
 import { useBodyPartsStore } from "@/stores/bodyParts";
 import ExerciseItemPreview from "@/components/ExerciseItemPreview.vue";
 
+import TimeCounter from "@/components/TimeCounter.vue";
+
 const store = useBodyPartsStore();
 
 onMounted(async () => {

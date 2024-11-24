@@ -1,9 +1,12 @@
 <template>
   <div class="bg-white p-4 rounded-t-3xl">
-    <div
-      class=" flex justify-end"
-    >
-      <div class="close-btn p-8 hover:cursor-pointer" @click="emit('close-modal')">X</div>
+    <div class="flex justify-end">
+      <div
+        class="close-btn p-8 hover:cursor-pointer"
+        @click="emit('close-modal')"
+      >
+        X
+      </div>
     </div>
     <img class="h-48 m-auto" :src="exercice.gifUrl" alt="" />
     <div>
@@ -46,6 +49,9 @@
           <h3>Super ta série a été ajouté</h3>
         </div>
       </Transition>
+      <div class="my-16">
+        <TimeCounter />
+      </div>
       <div v-for="savedWorkout in workouts">
         Previous workout(s) :
         {{ savedWorkout.series[savedWorkout.series.length - 1]["reps"] }}
@@ -92,6 +98,7 @@
 </template>
 
 <script setup lang="ts">
+import TimeCounter from "./TimeCounter.vue";
 import { Exercise } from "@/stores/bodyParts";
 import { Ref, UnwrapRef, ref } from "vue";
 import getWorkouts from "../composables/getWorkouts";

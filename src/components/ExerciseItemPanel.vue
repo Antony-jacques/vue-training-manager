@@ -43,10 +43,10 @@
       <h2>form</h2>
       <Transition>
         <div
-          v-if="isSuccess"
+          v-show="isSuccess"
           class="text-center border-4 border-lime-600 border-solid p-4"
         >
-          <h3>Super ta série a été ajouté</h3>
+          <h3>Super ta série a été ajoutée</h3>
         </div>
       </Transition>
       <div class="my-16">
@@ -69,6 +69,7 @@
                 type="number"
                 class="border w-16 text-center"
                 v-model="set.reps"
+                v-focus="{firstFocus: true, color:'green'}"
               />
               <label v-if="exercice.equipment !== 'body weight'">KG </label>
               <input
@@ -76,6 +77,7 @@
                 class="border w-16 text-center"
                 v-model="set.weight"
                 v-if="exercice.equipment !== 'body weight'"
+                
               />
               <button
                 @click="removeSerie(index)"

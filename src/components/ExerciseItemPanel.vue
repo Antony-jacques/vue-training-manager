@@ -60,41 +60,56 @@
         <div class="my-16">
           <TimeCounter />
         </div>
-        <TransitionGroup appear name="listAnimation">
-          <div v-for="savedWorkout in workouts">
-            Previous workout(s) :
-            {{ savedWorkout.series[savedWorkout.series.length - 1]["reps"] }}
-            repetitions -
-            {{ savedWorkout.series[savedWorkout.series.length - 1]["weight"] }}
-            kg
-          </div>
-        </TransitionGroup>
+        <div v-if="workouts.length">
+          <TransitionGroup appear name="listAnimation">
+            <div v-for="savedWorkout in workouts">
+              <div v-if="savedWorkout.series && savedWorkout.series.length">
+                Previous workout(s) :
+                {{
+                  savedWorkout.series[savedWorkout.series.length - 1]["reps"]
+                }}
+                repetitions -
+                {{
+                  savedWorkout.series[savedWorkout.series.length - 1]["weight"]
+                }}
+                kg
+              </div>
+            </div>
+          </TransitionGroup>
+        </div>
+
         <div>
           <form @submit.prevent="saveWorkout(props.exercice)">
-            <div>
+            <div v-if="series.length">
               <TransitionGroup appear name="listAnimation">
                 <div
                   v-for="(set, index) in series"
                   :key="index"
                   :style="`--i: ${index}`"
                 >
-                  <label>Reps </label>
-                  <input
-                    type="number"
-                    class="border w-16 text-center"
-                    v-model="set.reps"
-                    v-focus="{ firstFocus: true, color: 'green' }"
-                  />
-                  <label v-if="exercice.equipment !== 'body weight'">KG </label>
-                  <input
-                    type="number"
-                    class="border w-16 text-center"
-                    v-model="set.weight"
-                    v-if="exercice.equipment !== 'body weight'"
-                  />
+                  <div>
+                    <label>Reps </label>
+                    <input
+                      type="number"
+                      class="border w-16 text-center"
+                      v-model="set.reps"
+                      :placeholder="'Enter reps'"
+                    />
+                  </div>
+                  <div v-if="exercice.equipment !== 'body weight'">
+                    <label>KG </label>
+                    <input
+                      type="number"
+                      class="border w-16 text-center"
+                      v-model="set.weight"
+                      :placeholder="'Enter weight'"
+                    />
+                  </div>
+
                   <button
                     @click="removeSerie(index)"
                     class="border cursor bg-red-600 p-2 text-white"
+                    type="button"
                   >
                     delete
                   </button>

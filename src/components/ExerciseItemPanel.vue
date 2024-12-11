@@ -32,74 +32,92 @@
         Enregistrement
       </h2>
     </div>
-    <div class="instructions" v-show="activeTab === 'instructions'">
-      <ul>
-        <li v-for="instruction in exercice.instructions" class="my-4 list-disc">
-          {{ instruction }}
-        </li>
-      </ul>
-    </div>
-    <div class="exercice-form" v-show="activeTab === 'form'">
-      <h2>form</h2>
-      <Transition>
-        <div
-          v-show="isSuccess"
-          class="text-center border-4 border-lime-600 border-solid p-4"
-        >
-          <h3>Super ta série a été ajoutée</h3>
-        </div>
-      </Transition>
-      <div class="my-16">
-        <TimeCounter />
+    <Transition name="fade" mode="out-in">
+      <div class="instructions" v-if="activeTab === 'instructions'">
+        <ul>
+          <TransitionGroup appear name="listAnimation">
+            <li
+              v-for="(instruction, index) in exercice.instructions"
+              :key="instruction"
+              class="my-4 list-disc"
+              :style="`--i: ${index}`"
+            >
+              {{ instruction }} index: {{ index }}
+            </li>
+          </TransitionGroup>
+        </ul>
       </div>
-      <div v-for="savedWorkout in workouts">
-        Previous workout(s) :
-        {{
-          savedWorkout.series[savedWorkout.series.length - 1]["reps"]
-        }}
-        repetitions -
-        {{ savedWorkout.series[savedWorkout.series.length - 1]["weight"] }} kg
-      </div>
-      <div>
-        <form @submit.prevent="saveWorkout(props.exercice)">
-          <div>
-            <div v-for="(set, index) in series">
-              <label>Reps </label>
-              <input
-                type="number"
-                class="border w-16 text-center"
-                v-model="set.reps"
-                v-focus="{firstFocus: true, color:'green'}"
-              />
-              <label v-if="exercice.equipment !== 'body weight'">KG </label>
-              <input
-                type="number"
-                class="border w-16 text-center"
-                v-model="set.weight"
-                v-if="exercice.equipment !== 'body weight'"
-                
-              />
-              <button
-                @click="removeSerie(index)"
-                class="border cursor bg-red-600 p-2 text-white"
-              >
-                delete
-              </button>
-            </div>
-          </div>
-          <button
-            type="button"
-            class="border block p-2 text-white bg-amber-600"
-            @click="addSeries"
+      <div class="exercice-form" v-else>
+        <h2>form</h2>
+        <Transition>
+          <div
+            v-show="isSuccess"
+            class="text-center border-4 border-lime-600 border-solid p-4"
           >
-            New serie
-          </button>
-          <button type="submit" class="border block bg-lime-600 p-2 text-white">
-            SAVE
-          </button>
-        </form>
+            <h3>Super ta série a été ajoutée</h3>
+          </div>
+        </Transition>
+        <div class="my-16">
+          <TimeCounter />
+        </div>
+        <TransitionGroup appear name="listAnimation">
+          <div v-for="savedWorkout in workouts">
+            Previous workout(s) :
+            {{ savedWorkout.series[savedWorkout.series.length - 1]["reps"] }}
+            repetitions -
+            {{ savedWorkout.series[savedWorkout.series.length - 1]["weight"] }}
+            kg
+          </div>
+        </TransitionGroup>
+        <div>
+          <form @submit.prevent="saveWorkout(props.exercice)">
+            <div>
+              <TransitionGroup appear name="listAnimation">
+                <div
+                  v-for="(set, index) in series"
+                  :key="index"
+                  :style="`--i: ${index}`"
+                >
+                  <label>Reps </label>
+                  <input
+                    type="number"
+                    class="border w-16 text-center"
+                    v-model="set.reps"
+                    v-focus="{ firstFocus: true, color: 'green' }"
+                  />
+                  <label v-if="exercice.equipment !== 'body weight'">KG </label>
+                  <input
+                    type="number"
+                    class="border w-16 text-center"
+                    v-model="set.weight"
+                    v-if="exercice.equipment !== 'body weight'"
+                  />
+                  <button
+                    @click="removeSerie(index)"
+                    class="border cursor bg-red-600 p-2 text-white"
+                  >
+                    delete
+                  </button>
+                </div>
+              </TransitionGroup>
+            </div>
+            <button
+              type="button"
+              class="border block p-2 text-white bg-amber-600"
+              @click="addSeries"
+            >
+              New serie
+            </button>
+            <button
+              type="submit"
+              class="border block bg-lime-600 p-2 text-white"
+            >
+              SAVE
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    </Transition>
   </div>
 </template>
 
@@ -145,5 +163,27 @@ loadWorkouts(props.exercice.name);
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+.fade-leave-to,
+.listAnimation-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+}
+.fade-enter-from,
+.listAnimation-enter-from {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.fade-enter-active,
+.fade-leave-active,
+.listAnimation-enter-active,
+.listAnimation-leave-active {
+  transition: all 0.3s;
+}
+
+.listAnimation-enter-active {
+  transition-delay: calc(var(--i) * 0.2s);
 }
 </style>

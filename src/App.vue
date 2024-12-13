@@ -1,7 +1,9 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/target">Target</router-link>
+  <nav class="flex justify-center bg-[#9fd3c7] ">
+    <div class="site-logo mr-8 p-2">Logo</div>
+    <router-link to="/" class="p-2">Home</router-link>
+    <router-link to="/target" class="p-2">Target</router-link>
+    <router-link to="/about" class="p-2">About</router-link>
   </nav>
   <router-view/>
 </template>

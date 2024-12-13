@@ -28,10 +28,16 @@
 import { computed, onMounted } from "vue";
 
 import { useBodyPartsStore } from "@/stores/bodyParts";
+import { useRoute } from "vue-router";
 
 const props = defineProps<{
   bodyPart: string
 }>()
+
+const route = useRoute()
+
+console.log(route.params.bodyPart)
+console.log('props', props)
 
 onMounted(() => {
   store.fetchSingleBodyPartExercices(props.bodyPart);

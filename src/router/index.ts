@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import TargetView from '../views/TargetView.vue'
 import SingleBodyPartView from '@/views/SingleBodyPartView.vue'
 import CustomTraining from '@/views/CustomTraining.vue'
+import AboutView from '@/views/AboutView.vue'
+import NotFound from '@/views/NotFound.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -21,19 +23,19 @@ const routes: Array<RouteRecordRaw> = [
     component: CustomTraining
   },
   {
+    path: '/about',
+    component: AboutView
+  },
+  {
     path: '/SingleBodyPart/:bodyPart',
     name: 'SingleBodyPartView',
     component: SingleBodyPartView,
     props: true
   },
-  // {
-  //   path: '/about',
-  //   name: 'about',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  // }
+  {
+    path: '/:unknown(.*)',
+    component: NotFound
+  }
 ]
 
 const router = createRouter({

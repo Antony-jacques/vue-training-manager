@@ -46,10 +46,22 @@
 import { computed, onMounted, ref } from "vue";
 import { useBodyPartsStore } from "@/stores/bodyParts";
 import ExerciseItemPreview from "@/components/ExerciseItemPreview.vue";
+// import { useRouter } from "vue-router";
 
 const store = useBodyPartsStore();
 const selectedBodyParts = ref("");
 const isPageLoaded = ref(false);
+
+// const router = useRouter()
+
+// setTimeout(()=>{
+//   router.push({
+//     name: 'SingleBodyPartView',
+//     params: {
+//       bodyPart: 'cardio'
+//     }
+//   })
+// }, 2000)
 
 const triggerAfterAnimation = ()=>{
   isPageLoaded.value = true

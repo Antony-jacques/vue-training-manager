@@ -10,21 +10,30 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    component: CustomTraining
+    component: CustomTraining,
   },
   {
     path: '/target',
     name: 'Target',
-    component: TargetView
+    component: TargetView,
+    meta: {
+      title: 'Targeted muscle'
+    }
   },
   {
     path: '/my-training',
     name: 'MyTraining',
-    component: CustomTraining
+    component: CustomTraining,
+    beforeEnter(to, from){
+      console.log('TODO: check if user is connected')
+    }
   },
   {
     path: '/about',
-    component: AboutView
+    component: AboutView,
+    meta: {
+      title: 'About Page'
+    }
   },
   {
     path: '/SingleBodyPart/:bodyPart',
@@ -41,6 +50,13 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from) => {
+  console.log({
+    to:  to.path,
+    from:  from.path,
+})
 })
 
 export default router

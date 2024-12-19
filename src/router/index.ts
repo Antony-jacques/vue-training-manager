@@ -10,12 +10,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    component: CustomTraining,
+    component: ()=> import('@/views/CustomTraining.vue')
   },
   {
     path: '/target',
     name: 'Target',
-    component: TargetView,
+    component: ()=> import('@/views/TargetView.vue'),
     meta: {
       title: 'Targeted muscle'
     }
@@ -23,14 +23,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/my-training',
     name: 'MyTraining',
-    component: CustomTraining,
+    component: ()=> import('@/views/CustomTraining.vue'),
     beforeEnter(to, from){
       console.log('TODO: check if user is connected')
     }
   },
   {
     path: '/about',
-    component: AboutView,
+    component: ()=> import('@/views/AboutView.vue'),
     meta: {
       title: 'About Page'
     }
@@ -38,7 +38,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/SingleBodyPart/:bodyPart',
     name: 'SingleBodyPartView',
-    component: SingleBodyPartView,
+    component: ()=>import('@/views/SingleBodyPartView.vue'),
     props: true,
   },
   {

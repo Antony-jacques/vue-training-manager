@@ -39,7 +39,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/SingleBodyPart/:bodyPart',
     name: 'SingleBodyPartView',
     component: SingleBodyPartView,
-    props: true
+    props: true,
   },
   {
     path: '/:unknown(.*)',
@@ -49,14 +49,26 @@ const routes: Array<RouteRecordRaw> = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (to.hash) {
+      return {
+        el: to.hash,
+        top: 120,
+        behavior: 'smooth'
+      };
+    }
+    return {
+      top: 0,
+    };
+  },
+});
 
 router.beforeEach((to, from) => {
   console.log({
-    to:  to.path,
-    from:  from.path,
-})
-})
+    to: to.path,
+    from: from.path,
+  });
+});
 
-export default router
+export default router;

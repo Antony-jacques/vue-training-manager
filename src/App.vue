@@ -1,11 +1,13 @@
 <template>
-  <nav class="flex justify-center bg-[#9fd3c7] ">
-    <div class="site-logo mr-8 p-2">Logo</div>
-    <router-link to="/" class="p-2">Home</router-link>
-    <router-link to="/target" class="p-2">Target</router-link>
-    <router-link to="/about" class="p-2">About</router-link>
-  </nav>
-  <router-view/>
+  <div class="mt-32">
+    <nav class="flex justify-center bg-[#9fd3c7] fixed top-0 w-full">
+      <div class="site-logo mr-8 p-2">Logo</div>
+      <router-link to="/" class="p-2">Home</router-link>
+      <router-link to="/target" class="p-2">Target</router-link>
+      <router-link to="/about" class="p-2">About</router-link>
+    </nav>
+    <router-view />
+  </div>
 </template>
 
 <style>

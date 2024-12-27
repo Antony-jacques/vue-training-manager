@@ -5,6 +5,7 @@
       <router-link to="/" class="p-2">Home</router-link>
       <router-link to="/target" class="p-2">Target</router-link>
       <router-link to="/about" class="p-2">About</router-link>
+      <router-link to="/define-your-objectives" class="p-2">Objectives</router-link>
     </nav>
     <router-view />
   </div>

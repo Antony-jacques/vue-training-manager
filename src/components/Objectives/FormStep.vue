@@ -4,7 +4,7 @@
     <h3>{{ formItem.question }}</h3>
 
     <div v-if="formItem.type == 'text'">
-      <input :type="text" class="border" @input="updateName" />
+      <input :type="text" class="border" :value="store.userInfo.name" @input="updateName" />
       {{ name }}
     </div>
 
@@ -22,7 +22,7 @@
     </div>
 
     <div v-if="formItem.type == 'number'">
-      <input type="number" class="border" />
+      <input type="number" @input="updateFrequency" :value="store.objectives.frequency" min="1" class="border" />
     </div>
   </div>
 </template>
@@ -40,8 +40,11 @@ const name = ref("");
 const store = useObjectivesStore();
 
 const updateName = (e) => {
-  console.log(e.target.value)
   store.editUserName(e.target.value);
+};
+
+const updateFrequency = (e) => {
+  store.editObjectivesFrequency(e.target.value);
 };
 </script>
 

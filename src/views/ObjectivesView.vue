@@ -2,12 +2,24 @@
   <div>
     <h1>Objectives</h1>
     <h2>Bonjour {{ store.userInfo.name }}</h2>
+    <h2>Frequency {{ store.objectives.frequency }}</h2>
+    <h2>Step {{ store.currentStep }}</h2>
 
     <div v-if="formItems">
-      <FormStep v-for="formItem in formItems " :key="formItem.step" :formItem="formItem"/>
+      <div v-for="formItem in formItems" :key="formItem.stepNumber">
+        <FormStep
+          v-if="formItem.stepNumber == store.currentStep"
+          :formItem="formItem"
+        />
+      </div>
 
-      <button @click="store.sayHello()" class="border p-4">sayHello</button>
-      <button @click="store.editUserInfos({name: name})" class="border p-4">edit</button>
+      <button @click="store.currentStep--" v-show="store.currentStep != 1" class="border p-4">Prev</button>
+      <button @click="store.currentStep++" class="border p-4" v-show="store.currentStep !== formItems.length">
+        Next
+      </button>
+      <button @click="store.editUserInfos({ name: name })" class="border p-4">
+        edit
+      </button>
     </div>
   </div>
 </template>
@@ -17,9 +29,5 @@ import formItems from "@/assets/data/formItems";
 import FormStep from "@/components/Objectives/FormStep";
 import { useObjectivesStore } from "@/stores/objectivesStore";
 
-console.log(formItems);
-const store = useObjectivesStore()
-
+const store = useObjectivesStore();
 </script>
-
-<style lang="scss" scoped></style>

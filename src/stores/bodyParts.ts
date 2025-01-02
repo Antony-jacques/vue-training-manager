@@ -1,3 +1,7 @@
+import {
+  fetchBodyPartsService,
+  fetchSingleBodyPartExercicesService,
+} from "@/shared/services.bodyParts.service";
 import { defineStore } from "pinia";
 
 export interface Exercise {
@@ -17,7 +21,7 @@ export interface Workout {
 }
 interface State {
   data: {
-    bodyParts: string;
+    bodyParts: string[];
     singleBodyPartExercices: { [key: string]: any };
   };
   isLoading: boolean;
@@ -29,7 +33,7 @@ export const useBodyPartsStore = defineStore({
   // State
   state: (): State => ({
     data: {
-      bodyParts: "",
+      bodyParts: [],
       singleBodyPartExercices: {},
     },
     isLoading: false,
@@ -46,35 +50,12 @@ export const useBodyPartsStore = defineStore({
   },
 
   actions: {
-    saveBodyParts(fetchedItems: string) {
-      this.data.bodyParts = fetchedItems;
-    },
-
     async fetchBodyParts() {
       if (this.data.bodyParts.length) {
         return;
       }
-      const options = {
-        method: "GET",
-        url: "https://exercisedb.p.rapidapi.com/exercises",
-        params: { limit: "10" },
-        headers: {
-          "X-RapidAPI-Key": process.env.VUE_APP_EXERCISESDB_API_KEY,
-          "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
-        },
-      };
 
-      try {
-        const request = await fetch(
-          "https://exercisedb.p.rapidapi.com/exercises/bodyPartList",
-          options
-        );
-
-        const response = await request.json();
-        this.data.bodyParts = response;
-      } catch (error) {
-        console.error(error);
-      }
+      this.data.bodyParts = await fetchBodyPartsService();
     },
 
     async fetchSingleBodyPartExercices(muscle: string) {
@@ -82,30 +63,11 @@ export const useBodyPartsStore = defineStore({
         return;
       }
 
-      const options = {
-        method: "GET",
-        url: "https://exercisedb.p.rapidapi.com/exercises",
-        params: { limit: "10" },
-        headers: {
-          "X-RapidAPI-Key": process.env.VUE_APP_EXERCISESDB_API_KEY,
-          "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
-        },
-      };
+      const response = await fetchSingleBodyPartExercicesService(muscle);
 
-      try {
-        const request = await fetch(
-          `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${muscle}`,
-          options
-        );
+      const key: string = muscle.replace(" ", "-");
 
-        const response = await request.json();
-
-        let key: string = muscle.replace(" ", "-");
-
-        this.data.singleBodyPartExercices[key] = response;
-      } catch (error) {
-        console.error(error);
-      }
+      this.data.singleBodyPartExercices[key] = response;
     },
   },
 });

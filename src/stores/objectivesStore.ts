@@ -14,6 +14,7 @@ interface ObjectivesState {
   };
   currentStep: number;
   users: User[];
+  formResponses: any
 }
 
 export const useObjectivesStore = defineStore("objectives", {
@@ -39,6 +40,28 @@ export const useObjectivesStore = defineStore("objectives", {
         name: "Quentin",
       },
     ],
+    formResponses: {
+      userName: '',
+      age: null,
+      gender: null,
+      height: "",
+      weight: "",
+      activityLevel: null,
+      activities: "",
+      fitnessDuration: null,
+      fitnessLevel: null,
+      goals: [],
+      priorities: [],
+      trainingFrequency: null,
+      medicalRestrictions: "",
+      supplements: "",
+      preferences: null,
+      workoutTypes: [],
+      sessionPreference: null,
+      trainingStyle: null,
+      trackProgress: null,
+      motivation: "",
+    },
   }),
 
   getters: {
@@ -48,7 +71,7 @@ export const useObjectivesStore = defineStore("objectives", {
 
     getUserById(state: ObjectivesState) {
       return (userId: number) => {
-        console.log(state.users.find((user) => user.id === userId))
+        console.log(state.users.find((user) => user.id === userId));
         return state.users.find((user) => user.id === userId);
       };
     },
@@ -59,12 +82,13 @@ export const useObjectivesStore = defineStore("objectives", {
       alert(this.userInfo.name);
     },
 
-    editUserName(newName: string) {
-      this.userInfo.name = newName;
+    updateTextInputValue(newValvue: string, targetedKey: string) {
+      console.log('newValvue', newValvue)
+      console.log('targetedKey', targetedKey)
+      console.log('this.formResponses[targetedKey]', this.formResponses[targetedKey])
+      
+      this.formResponses[targetedKey] = newValvue;
     },
 
-    editObjectivesFrequency(newFrequency: number) {
-      this.objectives.frequency = newFrequency;
-    },
   },
 });

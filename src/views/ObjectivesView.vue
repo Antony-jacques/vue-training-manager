@@ -1,9 +1,6 @@
 <template>
   <div>
     <h1>Objectives</h1>
-    <h2>Bonjour {{ store.userInfo.name }}</h2>
-    <h2>Frequency {{ store.objectives.frequency }}</h2>
-    <h2>Step getter {{ store.getCurrentStep }}</h2>
 
     <div v-if="formItems">
       <div v-for="formItem in formItems" :key="formItem.stepNumber">

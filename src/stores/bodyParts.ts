@@ -25,6 +25,7 @@ interface State {
     singleBodyPartExercices: { [key: string]: any };
   };
   isLoading: boolean;
+  filters: string;
 }
 
 export const useBodyPartsStore = defineStore({
@@ -37,14 +38,28 @@ export const useBodyPartsStore = defineStore({
       singleBodyPartExercices: {},
     },
     isLoading: false,
+    filters: "all",
   }),
 
   getters: {
     getBodyParts: (state: State) => state.data.bodyParts,
+
     getSingleBodyPartExercices: (state: State) => {
       return (singleMuscle: string) => {
         singleMuscle = singleMuscle.replace(" ", "-");
         return state.data.singleBodyPartExercices[singleMuscle];
+      };
+    },
+
+    getFilteredExercices: (state: State) => {
+      return (singleMuscle: string) => {
+        if (state.filters !== "all") {
+          return state.data.singleBodyPartExercices[singleMuscle].filter((exercice: Exercise) => exercice.equipment === state.filters)
+
+        } else {
+          singleMuscle = singleMuscle.replace(" ", "-");
+          return state.data.singleBodyPartExercices[singleMuscle];
+        }
       };
     },
   },
@@ -68,6 +83,10 @@ export const useBodyPartsStore = defineStore({
       const key: string = muscle.replace(" ", "-");
 
       this.data.singleBodyPartExercices[key] = response;
+    },
+
+    updateFilters(newFilter: string) {
+      this.filters = newFilter;
     },
   },
 });

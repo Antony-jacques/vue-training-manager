@@ -1,9 +1,16 @@
 <template>
   <div class="container">
     <h2 class="mb-8">All {{ targetedMuscle }} exercises</h2>
+    <div>
+      <select @change="updateFilters" name="" id="">
+        <option value="all">All</option>
+        <option value="body weight">body weight</option>
+      </select>
+    </div>
+
     <div class="grid grid-cols-3 gap-x-4 gap-y-4">
       <div
-        v-for="exercice in getSingleBodyPartExercices"
+        v-for="exercice in getFilteredExercices "
         :key="exercice.id"
         class="shadow-xl flex flex-col"
       >
@@ -31,13 +38,10 @@ import { useBodyPartsStore } from "@/stores/bodyParts";
 import { useRoute } from "vue-router";
 
 const props = defineProps<{
-  bodyPart: string
-}>()
+  bodyPart: string;
+}>();
 
-const route = useRoute()
-
-console.log(route.params.bodyPart)
-console.log('props', props)
+const route = useRoute();
 
 onMounted(() => {
   store.fetchSingleBodyPartExercices(props.bodyPart);
@@ -48,6 +52,14 @@ const store = useBodyPartsStore();
 const getSingleBodyPartExercices = computed(() =>
   store.getSingleBodyPartExercices(targetedMuscle)
 );
+
+const getFilteredExercices = computed(() =>
+  store.getFilteredExercices(targetedMuscle)
+);
+
+const updateFilters = (e: Event) => {
+  store.updateFilters((<HTMLSelectElement>e.target).value);
+};
 </script>
 
 <style></style>

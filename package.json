@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "test:unit": "vitest --environment jsdom",
+    "test": "vitest",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false"
   },
   "dependencies": {
     "core-js": "^3.8.3",
@@ -14,13 +17,16 @@
     "vue-router": "^4.0.3"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-typescript": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "autoprefixer": "^10.4.19",
+    "jsdom": "^25.0.1",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
-    "typescript": "~4.5.5"
+    "typescript": "~4.5.5",
+    "vitest": "^2.1.8"
   }
 }
